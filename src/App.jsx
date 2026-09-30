@@ -4,7 +4,6 @@ import Question from './components/Question';
 import Result from './components/Result';
 import GrainOverlay from './components/GrainOverlay';
 import CustomCursor from './components/CustomCursor';
-import HalloweenAmbientFX from './components/HalloweenAmbientFX';
 import AudioToggle from './components/AudioToggle';
 import { QUIZ_QUESTIONS, CREATURE_RESULTS } from './data/quizData';
 
@@ -20,7 +19,7 @@ export default function App() {
   });
   const [resultCreature, setResultCreature] = useState(null);
 
-  // Preload all high-res editorial illustrations on mount
+  // Preload all high-res editorial scene illustrations on mount
   useEffect(() => {
     const assetsToPreload = [
       '/assets/landing.jpg',
@@ -57,7 +56,6 @@ export default function App() {
   };
 
   const handleAnswerSelected = (answer) => {
-    // Tally score
     const updatedScores = { ...scores };
     Object.entries(answer.scores).forEach(([creature, val]) => {
       if (updatedScores[creature] !== undefined) {
@@ -69,11 +67,8 @@ export default function App() {
     if (currentQuestionIndex + 1 < QUIZ_QUESTIONS.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
-      // Determine final creature
       let topCreature = 'vampire';
       let maxScore = -1;
-
-      // Ordered priority for deterministic tie-breaking
       const priorityOrder = ['vampire', 'witch', 'ghost', 'werewolf', 'reaper'];
       for (const key of priorityOrder) {
         if (updatedScores[key] > maxScore) {
@@ -95,19 +90,16 @@ export default function App() {
 
   return (
     <div className="horror-app-root">
-      {/* Editorial Grain and Dark Vignette Filters */}
+      {/* Authentic Subtle Paper Grain */}
       <GrainOverlay />
 
-      {/* Atmospheric Interactive Torchlight, Fog & Raven FX */}
-      <HalloweenAmbientFX />
-
-      {/* Spooky Gothic Ritual Dagger & Ember Canvas Cursor for Desktop */}
+      {/* Editorial Custom Cursor */}
       <CustomCursor />
 
-      {/* Ambient Audio Toggle */}
+      {/* Atmospheric Audio Toggle */}
       <AudioToggle />
 
-      {/* Main Experience Screens */}
+      {/* Primary Experience Screens */}
       {stage === 'landing' && (
         <Landing onStart={handleStartQuiz} />
       )}

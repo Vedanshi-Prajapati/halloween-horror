@@ -10,25 +10,20 @@ export default function Question({
 }) {
   const [selectedId, setSelectedId] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [hasShudder, setHasShudder] = useState(false);
 
-  // Reset local selection when question index changes
   useEffect(() => {
     setSelectedId(null);
     setIsTransitioning(false);
-    setHasShudder(false);
   }, [questionData.id]);
 
-  // Handle choice selection with subtle delay and tactile shudder
   const handleSelect = (answer) => {
     if (selectedId || isTransitioning) return;
     setSelectedId(answer.id);
-    setHasShudder(true);
     setIsTransitioning(true);
 
     setTimeout(() => {
       onAnswerSelected(answer);
-    }, 450);
+    }, 400);
   };
 
   // Keyboard shortcut listener (A-D, 1-4)
@@ -53,69 +48,48 @@ export default function Question({
   }, [questionData, selectedId, isTransitioning]);
 
   return (
-    <div
-      className={`question-scene-container ${isTransitioning ? 'fading-out' : 'fading-in'} ${hasShudder ? 'screen-shudder' : ''}`}
-    >
-      {/* Background Illustrated Scene with Slow Cinematic Drift */}
-      <div className="scene-backdrop" aria-hidden="true">
+    <section className={`scene-stage-layout ${isTransitioning ? 'scene-leaving' : 'scene-entering'}`}>
+      {/* Scene Folio Header */}
+      <header className="scene-stage-header">
+        <Progress
+          currentIndex={currentIndex}
+          totalCount={totalQuestions}
+          sceneTitle={questionData.sceneTitle}
+        />
+      </header>
+
+      {/* Hero Large Horror Illustration */}
+      <div className="scene-hero-artwork-frame">
         <img
           key={questionData.scene}
           src={questionData.scene}
-          alt=""
-          className="scene-backdrop-image drifting-scene"
+          alt={questionData.sceneTitle || "Halloween horror scene"}
+          className="scene-hero-artwork-image"
           loading="eager"
         />
-        <div className="scene-shade" />
-        <div className="scene-edge-grain" />
+        <div className="scene-artwork-shadow-overlay" />
       </div>
 
-      <div className="question-content-wrapper">
-        {/* Progress Indicator */}
-        <header className="question-header">
-          <Progress
-            currentIndex={currentIndex}
-            totalCount={totalQuestions}
-            roman={questionData.roman}
-            sceneTitle={questionData.sceneTitle}
-          />
-        </header>
+      {/* Integrated Question & Choices Composition */}
+      <div className="scene-interactive-bottom">
+        <h2 className="scene-question-prompt">
+          {questionData.question}
+        </h2>
 
-        {/* Central Question Artwork & Inscription Frame */}
-        <main className="question-main-editorial">
-          {/* Chapter / Location Stamp */}
-          <div className="scene-chapter-badge">
-            <span className="badge-flourish">§</span>
-            <span>{questionData.sceneTitle || "SCENE"}</span>
-            <span className="badge-flourish">§</span>
-          </div>
-
-          <div className="question-woodcut-plate">
-            <h2 className="question-prompt-text">
-              {questionData.question}
-            </h2>
-          </div>
-
-          {/* Answer Choices */}
-          <div className="answers-stacked-group" role="group" aria-label="Answer options">
-            {questionData.answers.map((ans, idx) => (
-              <Answer
-                key={ans.id}
-                answer={ans}
-                index={idx}
-                isSelected={selectedId === ans.id}
-                onSelect={handleSelect}
-                disabled={isTransitioning}
-              />
-            ))}
-          </div>
-
-          <footer className="question-footer-hints">
-            <span className="hint-pill">CHOOSE WITH CAUTION</span>
-            <span className="hint-divider">✦</span>
-            <span className="hint-keys">[A] – [D] OR [1] – [4]</span>
-          </footer>
-        </main>
+        {/* 2x2 Grid on Desktop, Clean Stack on Mobile */}
+        <div className="scene-answers-grid" role="group" aria-label="Answer options">
+          {questionData.answers.map((ans, idx) => (
+            <Answer
+              key={ans.id}
+              answer={ans}
+              index={idx}
+              isSelected={selectedId === ans.id}
+              onSelect={handleSelect}
+              disabled={isTransitioning}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,23 +1,22 @@
 import React from 'react';
 
-export default function Progress({ currentIndex, totalCount, roman, sceneTitle }) {
+export default function Progress({ currentIndex, totalCount, sceneTitle }) {
   return (
-    <div className="quiz-progress-bar" aria-label={`Question ${currentIndex + 1} of ${totalCount}`}>
-      <div className="progress-editorial-track">
-        {Array.from({ length: totalCount }).map((_, idx) => (
-          <div
-            key={idx}
-            className={`progress-pip ${idx === currentIndex ? 'current' : idx < currentIndex ? 'completed' : ''}`}
-            title={`Question ${idx + 1}`}
-          >
-            {idx === currentIndex && <span className="pip-ember-glow" />}
-          </div>
-        ))}
+    <div className="scene-folio-tracker">
+      <div className="folio-info">
+        <span className="folio-scene-number">SCENE 0{currentIndex + 1} / 0{totalCount}</span>
+        {sceneTitle && (
+          <>
+            <span className="folio-sep">&mdash;</span>
+            <span className="folio-scene-title">{sceneTitle}</span>
+          </>
+        )}
       </div>
-      <div className="progress-folio-text">
-        <span className="progress-numeral">ACT {roman}</span>
-        <span className="progress-divider">—</span>
-        <span className="progress-count">QUESTION 0{currentIndex + 1} OF 0{totalCount}</span>
+      <div className="folio-progress-line" role="progressbar" aria-valuenow={currentIndex + 1} aria-valuemin={1} aria-valuemax={totalCount}>
+        <div
+          className="folio-progress-fill"
+          style={{ width: `${((currentIndex + 1) / totalCount) * 100}%` }}
+        />
       </div>
     </div>
   );
