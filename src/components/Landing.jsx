@@ -68,7 +68,7 @@ export default function Landing({ onStart }) {
       {/* Editorial Content — Integrated Directly into the Scene */}
       <div className="landing-editorial-flow">
         <header className="landing-titles">
-          <p className="landing-kicker">AN INTERACTIVE INQUIRY</p>
+          <p className="landing-kicker">AN UNEXPECTED INQUIRY</p>
           <h1 className="landing-masthead">
             WHAT LURKS IN THE DARK?
           </h1>
