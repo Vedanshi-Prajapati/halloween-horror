@@ -1,16 +1,58 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { playCardSelect } from '../utils/audio';
 
 export default function Landing({ onStart }) {
+  const containerRef = useRef(null);
+
   const handleStart = () => {
     playCardSelect();
     onStart();
   };
 
+  useEffect(() => {
+    const handleMove = (e) => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      containerRef.current.style.setProperty('--torch-x', `${x}px`);
+      containerRef.current.style.setProperty('--torch-y', `${y}px`);
+      containerRef.current.style.setProperty('--torch-opacity', '1');
+    };
+
+    const handleLeave = () => {
+      if (!containerRef.current) return;
+      containerRef.current.style.setProperty('--torch-opacity', '0');
+    };
+
+    const handleTouch = (e) => {
+      if (!containerRef.current || !e.touches || !e.touches[0]) return;
+      const touch = e.touches[0];
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      containerRef.current.style.setProperty('--torch-x', `${x}px`);
+      containerRef.current.style.setProperty('--torch-y', `${y}px`);
+      containerRef.current.style.setProperty('--torch-opacity', '1');
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    document.addEventListener('mouseleave', handleLeave);
+    window.addEventListener('touchmove', handleTouch, { passive: true });
+    window.addEventListener('touchstart', handleTouch, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      document.removeEventListener('mouseleave', handleLeave);
+      window.removeEventListener('touchmove', handleTouch);
+      window.removeEventListener('touchstart', handleTouch);
+    };
+  }, []);
+
   return (
-    <section className="screen-landing">
-      {/* Hero Fullscreen Artwork */}
-      <div className="hero-artwork-canvas" aria-hidden="true">
+    <section className="screen-landing" ref={containerRef}>
+      {/* Hero Fullscreen Artwork — Illuminated by Torchlight */}
+      <div className="hero-artwork-canvas torchlight-target" aria-hidden="true">
         <img
           src="/assets/landing.jpg"
           alt="Haunted gothic forest and solitary lantern"
@@ -19,6 +61,9 @@ export default function Landing({ onStart }) {
         />
         <div className="hero-artwork-vignette" />
       </div>
+
+      {/* Atmospheric Torchlight Beam Overlay */}
+      <div className="torchlight-beam" aria-hidden="true" />
 
       {/* Editorial Content — Integrated Directly into the Scene */}
       <div className="landing-editorial-flow">

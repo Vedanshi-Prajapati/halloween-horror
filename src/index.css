@@ -95,10 +95,10 @@ html, body {
 
 @media (pointer: fine) {
   body {
-    cursor: none;
+    cursor: default;
   }
-  button, a {
-    cursor: none !important;
+  button, a, .editorial-cta-btn, .scene-answer-item, .audio-toggle-btn {
+    cursor: pointer;
   }
 }
 
@@ -109,43 +109,32 @@ html, body {
   pointer-events: none;
   z-index: 99999;
   transform: translate3d(-100px, -100px, 0);
-  transition: transform 0.03s linear;
+  transition: transform 0.04s cubic-bezier(0.1, 0.8, 0.2, 1);
 }
 
 .cursor-dot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: var(--bone-ivory);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: none;
 }
 
 .cursor-ring {
   position: absolute;
   top: 0;
   left: 0;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(223, 215, 198, 0.35);
-  transition: width 0.25s var(--ease-editorial), height 0.25s var(--ease-editorial), border-color 0.25s ease;
+  border: 1px solid rgba(223, 160, 90, 0.45);
+  box-shadow: 0 0 10px rgba(215, 110, 45, 0.25);
+  transition: width 0.25s var(--ease-editorial), height 0.25s var(--ease-editorial), border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .editorial-cursor-wrap.cursor-hover .cursor-ring {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-color: var(--vintage-orange);
-  background: rgba(184, 88, 32, 0.08);
-}
-
-.editorial-cursor-wrap.cursor-hover .cursor-dot {
-  transform: translate(-50%, -50%) scale(1.4);
-  background: var(--vintage-orange);
+  background: rgba(184, 88, 32, 0.12);
+  box-shadow: 0 0 18px rgba(215, 110, 45, 0.45);
 }
 
 .editorial-cursor-wrap.cursor-down .cursor-ring {
@@ -268,12 +257,60 @@ html, body {
   justify-content: flex-end;
   padding: 60px 32px 70px;
   overflow: hidden;
+  background-color: #030202;
+  --torch-radius: 300px;
+  --torch-x: 50%;
+  --torch-y: 50%;
+  --torch-opacity: 0;
 }
 
 .hero-artwork-canvas {
   position: absolute;
   inset: 0;
   z-index: 1;
+}
+
+/* Torchlight illumination mask on landing screen */
+.screen-landing .hero-artwork-canvas.torchlight-target {
+  mask-image: radial-gradient(
+    circle var(--torch-radius) at var(--torch-x) var(--torch-y),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.94) 36%,
+    rgba(0, 0, 0, 0.42) 68%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle var(--torch-radius) at var(--torch-x) var(--torch-y),
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.94) 36%,
+    rgba(0, 0, 0, 0.42) 68%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  opacity: var(--torch-opacity);
+  transition: opacity 0.4s ease-out;
+}
+
+/* Realistic warm amber torchlight beam overlay */
+.torchlight-beam {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(
+    circle var(--torch-radius) at var(--torch-x) var(--torch-y),
+    rgba(255, 195, 120, 0.2) 0%,
+    rgba(215, 110, 40, 0.08) 45%,
+    transparent 100%
+  );
+  opacity: var(--torch-opacity);
+  mix-blend-mode: screen;
+  transition: opacity 0.4s ease-out;
+}
+
+@media (hover: none) {
+  .screen-landing {
+    --torch-opacity: 0.85;
+  }
 }
 
 .hero-artwork-image {
