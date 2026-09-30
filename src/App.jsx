@@ -4,6 +4,7 @@ import Question from './components/Question';
 import Result from './components/Result';
 import GrainOverlay from './components/GrainOverlay';
 import CustomCursor from './components/CustomCursor';
+import HalloweenAmbientFX from './components/HalloweenAmbientFX';
 import AudioToggle from './components/AudioToggle';
 import { QUIZ_QUESTIONS, CREATURE_RESULTS } from './data/quizData';
 
@@ -23,8 +24,13 @@ export default function App() {
   useEffect(() => {
     const assetsToPreload = [
       '/assets/landing.jpg',
-      '/assets/scene_hallway.jpg',
+      '/assets/scene_cellar.jpg',
       '/assets/scene_crossroads.jpg',
+      '/assets/scene_rooftop_raven.jpg',
+      '/assets/scene_grandfather_clock.jpg',
+      '/assets/scene_portrait_gallery.jpg',
+      '/assets/scene_midnight_moon.jpg',
+      '/assets/scene_mausoleum_gate.jpg',
       '/assets/result_vampire.jpg',
       '/assets/result_witch.jpg',
       '/assets/result_ghost.jpg',
@@ -92,7 +98,10 @@ export default function App() {
       {/* Editorial Grain and Dark Vignette Filters */}
       <GrainOverlay />
 
-      {/* Spooky Candle/Ember Cursor for Desktop */}
+      {/* Atmospheric Interactive Torchlight, Fog & Raven FX */}
+      <HalloweenAmbientFX />
+
+      {/* Spooky Gothic Ritual Dagger & Ember Canvas Cursor for Desktop */}
       <CustomCursor />
 
       {/* Ambient Audio Toggle */}

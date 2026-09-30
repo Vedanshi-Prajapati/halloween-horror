@@ -1,4 +1,4 @@
-// Quiz data and creature profiles for "WHAT LURKS IN THE DARK?"
+// Quiz data, bespoke scenes, and creature profiles for "WHAT LURKS IN THE DARK?"
 
 export const CREATURE_RESULTS = {
   vampire: {
@@ -6,60 +6,85 @@ export const CREATURE_RESULTS = {
     name: "THE VAMPIRE",
     subtitle: "The Aristocrat of the Midnight Court",
     image: "/assets/result_vampire.jpg",
-    traits: ["Calculating", "Refined", "Unforgiving"],
+    traits: [
+      { name: "Calculating", detail: "You measure every gesture and unspoken word. Nothing in your presence happens by accident." },
+      { name: "Refined", detail: "A connoisseur of dark vintage, silence, and antique ironies. Vulgarity offends you more than danger." },
+      { name: "Unforgiving", detail: "A ledger written in blood and shadow. You may wait centuries, but debts are always paid in full." },
+    ],
     description:
       "You move with cold poise through a world too hurried to notice the details. You do not chase what you desire; you wait until darkness brings it directly to your feet. Elegance is your armor, and patience your weapon. Those who mistake your quiet demeanor for docility seldom live to regret it twice.",
     epitaph: "“Time does not wither the patient hunter; it merely sharpens the blade.”",
     accentColor: "#8b2020",
     themeColor: "oxblood",
+    symbolIcon: "goblet",
   },
   witch: {
     id: "witch",
     name: "THE WITCH",
     subtitle: "Keeper of the Forgotten Ciphers",
     image: "/assets/result_witch.jpg",
-    traits: ["Intuitive", "Unruly", "Alchemical"],
+    traits: [
+      { name: "Intuitive", detail: "You read the subtle draft under doors, the scent of approaching storms, and the secrets in downcast eyes." },
+      { name: "Unruly", detail: "Unbound by societal decrees or mortal consensus. Your wild nature bends to no magistrate." },
+      { name: "Alchemical", detail: "You transform sorrow into poison, memory into medicine, and ordinary moments into bewitching omens." },
+    ],
     description:
       "You possess an ancient literacy for things unspoken—the rustle of dried wormwood, the turning of the moon, and the intentions people hide behind their teeth. You belong to no master, and your craft answers only to truth. You know which remedies cure and which quietly curdle the blood.",
     epitaph: "“The wood remembers every fire that ever dared enter it.”",
     accentColor: "#678263",
     themeColor: "sage",
+    symbolIcon: "cauldron",
   },
   ghost: {
     id: "ghost",
     name: "THE GHOST",
     subtitle: "The Silent Witness Behind the Veil",
     image: "/assets/result_ghost.jpg",
-    traits: ["Perceptive", "Ethereal", "Haunted"],
+    traits: [
+      { name: "Perceptive", detail: "You notice the things the living miss: cold floorboards, forgotten portraits, and words left unsaid." },
+      { name: "Ethereal", detail: "A presence felt before seen. Heavy walls cannot bar you, nor can earthly ties hold your wandering thoughts." },
+      { name: "Haunted", detail: "Bound by romantic melancholy and eternal memory. You hold tightly to the echoes of what once was." },
+    ],
     description:
       "You inhabit the quiet corners between memory and reality. While others scramble for the center of the stage, you see all things from behind the veil. You carry the weight of forgotten promises and cold rooms. You never truly leave a place you have once loved.",
     epitaph: "“Some footsteps leave no dust upon the floorboards, yet rattle the entire house.”",
     accentColor: "#869f8e",
     themeColor: "spectral",
+    symbolIcon: "shroud",
   },
   werewolf: {
     id: "werewolf",
     name: "THE WEREWOLF",
     subtitle: "The Primal Beast of the Deep Briar",
     image: "/assets/result_werewolf.jpg",
-    traits: ["Fierce", "Uncompromising", "Primal"],
+    traits: [
+      { name: "Fierce", detail: "An unquenchable fire burning behind your ribs. When provoked, you give no warning—only impact." },
+      { name: "Uncompromising", detail: "Artificial etiquette suffocates you. You honor raw truth, undivided pack loyalty, and the wild." },
+      { name: "Primal", detail: "Your senses are dialed into the pulse of the earth. You hear the heartbeat of the forest when the city sleeps." },
+    ],
     description:
       "Civilization feels like a garment two sizes too small. Underneath your calm exterior beats an ancient, restless heart. When pushed to the threshold, you do not deliberate—you strike with undivided instinct. Loyalty to your pack is absolute; mercy to your foes is non-existent.",
     epitaph: "“Tear away the silk and gold; under the pale moon, bone remains bone.”",
     accentColor: "#c25e24",
     themeColor: "amber",
+    symbolIcon: "claw",
   },
   reaper: {
     id: "reaper",
     name: "THE REAPER",
     subtitle: "The Inevitable Harvester",
     image: "/assets/result_reaper.jpg",
-    traits: ["Infallible", "Stoic", "Final"],
+    traits: [
+      { name: "Infallible", detail: "You never lose composure in turmoil. While others panic at endings, you understand cycles." },
+      { name: "Stoic", detail: "Silent, steadfast, and impartial. Neither gold nor tears can sway the measured swing of your truth." },
+      { name: "Final", detail: "When you close a chapter or make a decision, it remains sealed forever. No second guesses." },
+    ],
     description:
       "You do not panic when the candle flickers out. You recognize that all things—joy, terror, empires, and heartbeats—have their appointed conclusion. Your quiet composure unnerves those who fear the end, but brings solemn peace to those tired of running.",
     epitaph: "“Every path through the briars, however winding, leads straight to my threshold.”",
     accentColor: "#7e2c2c",
     themeColor: "monochrome",
+    symbolIcon: "scythe",
   },
 };
 
@@ -67,7 +92,8 @@ export const QUIZ_QUESTIONS = [
   {
     id: 1,
     roman: "I",
-    scene: "/assets/scene_hallway.jpg",
+    scene: "/assets/scene_cellar.jpg",
+    sceneTitle: "THE CELLAR VAULT",
     question: "You hear three measured knocks from inside the locked oak cabinet in the cellar. What do you do?",
     answers: [
       {
@@ -96,6 +122,7 @@ export const QUIZ_QUESTIONS = [
     id: 2,
     roman: "II",
     scene: "/assets/scene_crossroads.jpg",
+    sceneTitle: "THE MIDNIGHT CROSSROADS",
     question: "At an overgrown crossroads near midnight, a hooded stranger offers you an antique key with no lock in sight. How do you respond?",
     answers: [
       {
@@ -123,7 +150,8 @@ export const QUIZ_QUESTIONS = [
   {
     id: 3,
     roman: "III",
-    scene: "/assets/landing.jpg",
+    scene: "/assets/scene_rooftop_raven.jpg",
+    sceneTitle: "THE SPIRES OF CROWS",
     question: "A solitary raven has trailed your steps since sundown, perching on every rooftop you pass. What does it want?",
     answers: [
       {
@@ -151,7 +179,8 @@ export const QUIZ_QUESTIONS = [
   {
     id: 4,
     roman: "IV",
-    scene: "/assets/scene_hallway.jpg",
+    scene: "/assets/scene_grandfather_clock.jpg",
+    sceneTitle: "THE THIRTEENTH STROKE",
     question: "The grandfather clock strikes thirteen. The candle in your iron candlestick instantly snuffs out. Where does your hand go first?",
     answers: [
       {
@@ -179,7 +208,8 @@ export const QUIZ_QUESTIONS = [
   {
     id: 5,
     roman: "V",
-    scene: "/assets/scene_crossroads.jpg",
+    scene: "/assets/scene_portrait_gallery.jpg",
+    sceneTitle: "THE RUINED GALLERY",
     question: "You discover an oil portrait of yourself hanging in a ruined gallery, dated two hundred years before your birth. What is your first thought?",
     answers: [
       {
@@ -207,7 +237,8 @@ export const QUIZ_QUESTIONS = [
   {
     id: 6,
     roman: "VI",
-    scene: "/assets/landing.jpg",
+    scene: "/assets/scene_midnight_moon.jpg",
+    sceneTitle: "THE WATCHTOWER MOON",
     question: "Which nocturnal hour holds the most intoxicating dominion over your spirit?",
     answers: [
       {
@@ -235,7 +266,8 @@ export const QUIZ_QUESTIONS = [
   {
     id: 7,
     roman: "VII",
-    scene: "/assets/scene_hallway.jpg",
+    scene: "/assets/scene_mausoleum_gate.jpg",
+    sceneTitle: "THE MAUSOLEUM THRESHOLD",
     question: "When your time in this realm draws to its inevitable close, what will remain in your wake?",
     answers: [
       {

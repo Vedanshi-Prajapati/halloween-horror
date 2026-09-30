@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { playChime, playCardSelect } from '../utils/audio';
+import CreatureSigil from './CreatureSigil';
 
 export default function Result({ result, onRestart }) {
   const [toastMessage, setToastMessage] = useState('');
   const [isCopied, setIsCopied] = useState(false);
+  const [activeTraitIndex, setActiveTraitIndex] = useState(null);
 
   useEffect(() => {
     // Play solemn iron bell chime on result reveal
@@ -14,7 +16,8 @@ export default function Result({ result, onRestart }) {
   const handleShare = async () => {
     playCardSelect();
     const shareUrl = window.location.href.split('?')[0];
-    const shareText = `In the shadows of “WHAT LURKS IN THE DARK?”, my soul walks as ${result.name} — ${result.traits.join(', ')}. What dwells in yours?`;
+    const traitNames = result.traits.map((t) => (typeof t === 'string' ? t : t.name)).join(', ');
+    const shareText = `In the shadows of “WHAT LURKS IN THE DARK?”, my soul walks as ${result.name} (${traitNames}). What dwells in yours?`;
 
     if (navigator.share) {
       try {
@@ -25,7 +28,7 @@ export default function Result({ result, onRestart }) {
         });
         return;
       } catch {
-        // User cancelled or fallback
+        // Fallback to clipboard
       }
     }
 
@@ -48,6 +51,11 @@ export default function Result({ result, onRestart }) {
     onRestart();
   };
 
+  const handleTraitClick = (idx) => {
+    playCardSelect();
+    setActiveTraitIndex(activeTraitIndex === idx ? null : idx);
+  };
+
   return (
     <div className={`result-screen-container theme-${result.themeColor}`}>
       {/* Full-screen Character Illustration Backdrop */}
@@ -55,17 +63,29 @@ export default function Result({ result, onRestart }) {
         <img
           src={result.image}
           alt={result.name}
-          className="result-backdrop-image"
+          className="result-backdrop-image result-slow-drift"
           loading="eager"
         />
         <div className="result-backdrop-shade" />
+        <div className="result-atmospheric-mist" />
       </div>
 
       <div className="result-editorial-sheet">
+        {/* Antique Corner Flourishes */}
+        <span className="plate-corner-flourish top-left">┌</span>
+        <span className="plate-corner-flourish top-right">┐</span>
+        <span className="plate-corner-flourish bottom-left">└</span>
+        <span className="plate-corner-flourish bottom-right">┘</span>
+
+        {/* Creature Crest Sigil */}
+        <div className="result-sigil-badge" aria-hidden="true">
+          <CreatureSigil type={result.id} />
+        </div>
+
         <header className="result-header">
           <div className="result-pretitle">
             <span className="flourish">❧</span>
-            <span>THE VEIL IS TORN</span>
+            <span>THE VEIL IS TORN &middot; YOUR TRUE FORM</span>
             <span className="flourish">☙</span>
           </div>
 
@@ -78,17 +98,44 @@ export default function Result({ result, onRestart }) {
           </p>
         </header>
 
-        {/* 3 Personality Traits */}
+        {/* 3 Interactive Personality Traits */}
         <section className="result-traits-container" aria-label="Personality Traits">
-          {result.traits.map((trait, idx) => (
-            <div key={idx} className="result-trait-pill">
-              <span className="trait-dagger">†</span>
-              <span className="trait-label">{trait}</span>
-            </div>
-          ))}
+          <div className="traits-interactive-hint">
+            <span>CLICK A TRAIT TO UNLOCK ITS DARK LORE</span>
+          </div>
+          <div className="traits-grid">
+            {result.traits.map((traitObj, idx) => {
+              const name = typeof traitObj === 'string' ? traitObj : traitObj.name;
+              const detail = typeof traitObj === 'string' ? null : traitObj.detail;
+              const isActive = activeTraitIndex === idx;
+
+              return (
+                <div
+                  key={idx}
+                  className={`result-trait-card ${isActive ? 'card-active' : ''}`}
+                  onClick={() => handleTraitClick(idx)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleTraitClick(idx)}
+                  aria-expanded={isActive}
+                >
+                  <div className="trait-card-header">
+                    <span className="trait-dagger">†</span>
+                    <span className="trait-label">{name}</span>
+                    <span className="trait-toggle-icon">{isActive ? '▲' : '▼'}</span>
+                  </div>
+                  {detail && (
+                    <div className="trait-card-detail">
+                      <p>{detail}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </section>
 
-        {/* Personality Description */}
+        {/* Personality Narrative Description */}
         <section className="result-narrative-box">
           <p className="result-description-body">
             {result.description}
@@ -109,6 +156,7 @@ export default function Result({ result, onRestart }) {
             <span className="btn-frame-corner top-right" />
             <span className="btn-frame-corner bottom-left" />
             <span className="btn-frame-corner bottom-right" />
+            <span className="btn-icon">↺</span>
             <span>PLAY AGAIN</span>
           </button>
 
@@ -121,6 +169,7 @@ export default function Result({ result, onRestart }) {
             <span className="btn-frame-corner top-right" />
             <span className="btn-frame-corner bottom-left" />
             <span className="btn-frame-corner bottom-right" />
+            <span className="btn-icon">{isCopied ? '✓' : '✦'}</span>
             <span>{isCopied ? 'TALE COPIED' : 'SHARE RESULT'}</span>
           </button>
         </footer>
