@@ -9,7 +9,7 @@ import { QUIZ_QUESTIONS, CREATURE_RESULTS } from './data/quizData';
 import { startBGM, hasUserMuted, setAudioStage } from './utils/audio';
 
 export default function App() {
-  const [stage, setStage] = useState('landing'); // 'landing' | 'quiz' | 'result'
+  const [stage, setStage] = useState('landing');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [scores, setScores] = useState({
     vampire: 0,
@@ -20,12 +20,10 @@ export default function App() {
   });
   const [resultCreature, setResultCreature] = useState(null);
 
-  // Sync background music soundscape to current stage
   useEffect(() => {
     setAudioStage(stage);
   }, [stage]);
 
-  // Preload all high-res editorial scene illustrations on mount
   useEffect(() => {
     const assetsToPreload = [
       '/assets/landing.jpg',
@@ -99,16 +97,10 @@ export default function App() {
 
   return (
     <div className="horror-app-root">
-      {/* Authentic Subtle Paper Grain */}
       <GrainOverlay />
-
-      {/* Editorial Custom Cursor */}
       <CustomCursor />
-
-      {/* Atmospheric Audio Toggle */}
       <AudioToggle />
 
-      {/* Primary Experience Screens */}
       {stage === 'landing' && (
         <Landing onStart={handleStartQuiz} />
       )}

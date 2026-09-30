@@ -1,11 +1,5 @@
-/* ==========================================================================
-   WHAT LURKS IN THE DARK? — Art-Directed Editorial Horror Experience
-   Aesthetic: Cinematic horror poster, vintage illustrated storybook, stark editorial typography
-   Zero cards, zero glassmorphism, zero AI slop.
-   ========================================================================== */
-
 :root {
-  /* Restrained Vintage Palette */
+  
   --ink-black: #070605;
   --ink-deep: #0e0c0a;
   --ink-surface: #141210;
@@ -21,7 +15,6 @@
   --oxblood: #591616;
   --oxblood-bright: #7a1e1e;
 
-  /* Typography System — Strictly 2 Editorial Typefaces */
   --font-display: 'Cinzel', Georgia, serif;
   --font-body: 'EB Garamond', Garamond, 'Times New Roman', serif;
 
@@ -29,7 +22,6 @@
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset & Foundation */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -55,10 +47,6 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-
-/* ==========================================================================
-   GRAIN & VIGNETTE TEXTURE
-   ========================================================================== */
 
 .svg-grain-filter {
   position: absolute;
@@ -88,10 +76,6 @@ html, body {
     rgba(4, 3, 3, 0.95) 100%
   );
 }
-
-/* ==========================================================================
-   EDITORIAL CURSOR (DESKTOP ONLY)
-   ========================================================================== */
 
 @media (pointer: fine) {
   body {
@@ -142,10 +126,6 @@ html, body {
   height: 18px;
   border-color: var(--bone-ivory);
 }
-
-/* ==========================================================================
-   ATMOSPHERE AUDIO TOGGLE
-   ========================================================================== */
 
 .audio-toggle-btn {
   position: fixed;
@@ -232,10 +212,6 @@ html, body {
   }
 }
 
-/* ==========================================================================
-   APP ROOT
-   ========================================================================== */
-
 .horror-app-root {
   min-height: 100vh;
   width: 100%;
@@ -243,10 +219,6 @@ html, body {
   flex-direction: column;
   background-color: var(--ink-black);
 }
-
-/* ==========================================================================
-   LANDING SCREEN (CINEMATIC POSTER COMPOSITION)
-   ========================================================================== */
 
 .screen-landing {
   position: relative;
@@ -270,7 +242,6 @@ html, body {
   z-index: 1;
 }
 
-/* Torchlight illumination mask on landing screen */
 .screen-landing .hero-artwork-canvas.torchlight-target {
   mask-image: radial-gradient(
     circle var(--torch-radius) at var(--torch-x) var(--torch-y),
@@ -290,7 +261,6 @@ html, body {
   transition: opacity 0.4s ease-out;
 }
 
-/* Realistic warm amber torchlight beam overlay */
 .torchlight-beam {
   position: absolute;
   inset: 0;
@@ -442,11 +412,6 @@ html, body {
   opacity: 0.9;
 }
 
-/* ==========================================================================
-   QUESTION SCREEN (SCENE-FIRST COMPOSITION)
-   Artwork takes the dominant vertical space, question & choices integrate naturally
-   ========================================================================== */
-
 .scene-stage-layout {
   position: relative;
   min-height: 100vh;
@@ -471,7 +436,6 @@ html, body {
   transform: translateY(-8px);
 }
 
-/* Scene Folio Header */
 .scene-stage-header {
   width: 100%;
   display: flex;
@@ -523,7 +487,6 @@ html, body {
   transition: width 0.4s var(--ease-editorial);
 }
 
-/* Hero Large Horror Illustration Frame */
 .scene-hero-artwork-frame {
   position: relative;
   width: 100%;
@@ -559,7 +522,6 @@ html, body {
   );
 }
 
-/* Integrated Question & Choices Composition */
 .scene-interactive-bottom {
   display: flex;
   flex-direction: column;
@@ -577,7 +539,6 @@ html, body {
   text-align: center;
 }
 
-/* 2x2 Grid of Clean Typographic Choices */
 .scene-answers-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -638,10 +599,6 @@ html, body {
   color: var(--bone-ivory);
 }
 
-/* ==========================================================================
-   RESULT SCREEN (DOMINANT CHARACTER REVEAL CLIMAX)
-   ========================================================================== */
-
 .screen-result-reveal {
   position: relative;
   min-height: 100vh;
@@ -661,7 +618,6 @@ html, body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Large Dominant Character Frame */
 .result-character-hero-frame {
   position: relative;
   width: 100%;
@@ -697,7 +653,6 @@ html, body {
   );
 }
 
-/* Editorial Reveal Details */
 .result-editorial-details {
   display: flex;
   flex-direction: column;
@@ -739,7 +694,6 @@ html, body {
   color: var(--ash-muted);
 }
 
-/* 3 Small Restrained Traits */
 .result-traits-row {
   display: flex;
   flex-wrap: wrap;
@@ -758,7 +712,6 @@ html, body {
   background: rgba(18, 15, 12, 0.6);
 }
 
-/* Short Narrative */
 .result-narrative-summary {
   font-family: var(--font-body);
   font-size: 1.2rem;
@@ -767,7 +720,6 @@ html, body {
   max-width: 680px;
 }
 
-/* Action Controls */
 .result-action-row {
   display: flex;
   flex-wrap: wrap;
@@ -843,10 +795,6 @@ html, body {
   from { opacity: 0; transform: translate(-50%, 10px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
-
-/* ==========================================================================
-   RESPONSIVE DESIGN (MOBILE)
-   ========================================================================== */
 
 @media (max-width: 768px) {
   html, body {

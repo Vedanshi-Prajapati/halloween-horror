@@ -28,7 +28,6 @@ export default function Question({
     }, 400);
   };
 
-  // Keyboard shortcut listener (A-D, 1-4)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedId || isTransitioning) return;
@@ -51,7 +50,6 @@ export default function Question({
 
   return (
     <section className={`scene-stage-layout ${isTransitioning ? 'scene-leaving' : 'scene-entering'}`}>
-      {/* Scene Folio Header */}
       <header className="scene-stage-header">
         <Progress
           currentIndex={currentIndex}
@@ -60,7 +58,6 @@ export default function Question({
         />
       </header>
 
-      {/* Hero Large Horror Illustration */}
       <div className="scene-hero-artwork-frame">
         <img
           key={questionData.scene}
@@ -72,13 +69,11 @@ export default function Question({
         <div className="scene-artwork-shadow-overlay" />
       </div>
 
-      {/* Integrated Question & Choices Composition */}
       <div className="scene-interactive-bottom">
         <h2 className="scene-question-prompt">
           {questionData.question}
         </h2>
 
-        {/* 2x2 Grid on Desktop, Clean Stack on Mobile */}
         <div className="scene-answers-grid" role="group" aria-label="Answer options">
           {questionData.answers.map((ans, idx) => (
             <Answer

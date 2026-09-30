@@ -1,5 +1,3 @@
-// Quiz data, bespoke scenes, and creature profiles for "WHAT LURKS IN THE DARK?"
-
 export const CREATURE_RESULTS = {
   vampire: {
     id: "vampire",

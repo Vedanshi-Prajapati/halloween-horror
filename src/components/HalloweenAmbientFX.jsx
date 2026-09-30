@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 export default function HalloweenAmbientFX() {
-  const [torchPos, setTorchPos] = useState({ x: 50, y: 50 }); // percentage of viewport
+  const [torchPos, setTorchPos] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
     const handleMove = (e) => {
@@ -16,7 +16,6 @@ export default function HalloweenAmbientFX() {
 
   return (
     <div className="halloween-ambient-fx-layer" aria-hidden="true">
-      {/* Interactive Torchlight Vignette: illuminates the dark artwork where the player points */}
       <div
         className="torchlight-glow"
         style={{
@@ -24,11 +23,9 @@ export default function HalloweenAmbientFX() {
         }}
       />
 
-      {/* Creeping Nocturnal Fog Mist */}
       <div className="creeping-fog-mist fog-layer-1" />
       <div className="creeping-fog-mist fog-layer-2" />
 
-      {/* Occasional Shadow Raven Silhouette gliding in sky */}
       <div className="ambient-gliding-raven" />
     </div>
   );

@@ -7,7 +7,6 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Only activate on devices with a mouse/trackpad pointer
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     if (!isFinePointer) return;
 

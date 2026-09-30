@@ -1,6 +1,3 @@
-// Web Audio API Cinematic Horror Ambient BGM & Sound Engine
-// Zero external assets required — procedural, seamless, zero-latency dark horror soundtrack
-
 let audioCtx = null;
 let masterGain = null;
 let compressor = null;
@@ -8,7 +5,6 @@ let delayNode = null;
 let delayFeedback = null;
 let delayFilter = null;
 
-// Trackers for active synthesized sound layers
 let droneGain = null;
 let droneOscs = [];
 let droneLFOs = [];
@@ -23,7 +19,7 @@ let bellTimer = null;
 
 let isPlaying = false;
 let userMutedExplicitly = false;
-let currentStage = 'landing'; // 'landing' | 'quiz' | 'result'
+let currentStage = 'landing';
 const stateListeners = new Set();
 
 function notifyListeners() {
@@ -47,15 +43,12 @@ function getAudioContext() {
   return audioCtx;
 }
 
-// Master bus with compression and gothic reverb-delay network
 function setupMasterBus(ctx) {
   if (masterGain && compressor) return;
 
-  // Master Gain
   masterGain = ctx.createGain();
   masterGain.gain.setValueAtTime(0.0001, ctx.currentTime);
 
-  // Dynamics Compressor for filmic mastering (glues dark low-end without clipping)
   compressor = ctx.createDynamicsCompressor();
   compressor.threshold.setValueAtTime(-14, ctx.currentTime);
   compressor.knee.setValueAtTime(12, ctx.currentTime);
@@ -63,7 +56,6 @@ function setupMasterBus(ctx) {
   compressor.attack.setValueAtTime(0.005, ctx.currentTime);
   compressor.release.setValueAtTime(0.25, ctx.currentTime);
 
-  // Gothic cathedral space delay/echo bus
   delayNode = ctx.createDelay();
   delayNode.delayTime.setValueAtTime(0.38, ctx.currentTime);
 
@@ -74,7 +66,6 @@ function setupMasterBus(ctx) {
   delayFilter.type = 'lowpass';
   delayFilter.frequency.setValueAtTime(1400, ctx.currentTime);
 
-  // Reverb/Delay loop
   delayNode.connect(delayFilter);
   delayFilter.connect(delayFeedback);
   delayFeedback.connect(delayNode);
@@ -84,7 +75,6 @@ function setupMasterBus(ctx) {
   compressor.connect(ctx.destination);
 }
 
-// Procedural Pink/Brown Noise buffer for spectral night wind
 function createNoiseBuffer(ctx) {
   const bufferSize = ctx.sampleRate * 4;
   const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -93,15 +83,13 @@ function createNoiseBuffer(ctx) {
 
   for (let i = 0; i < bufferSize; i++) {
     const white = Math.random() * 2 - 1;
-    // Brown noise integration for heavy deep wind rumble
     data[i] = (lastOut + 0.02 * white) / 1.02;
     lastOut = data[i];
-    data[i] *= 3.2; // Gain normalization
+    data[i] *= 3.2;
   }
   return buffer;
 }
 
-// Start Night Wind Sound Generator
 function startWindLayer(ctx) {
   if (windSource) return;
 
@@ -118,7 +106,6 @@ function startWindLayer(ctx) {
   windGain = ctx.createGain();
   windGain.gain.setValueAtTime(0.035, ctx.currentTime);
 
-  // LFO to sweep wind frequency (whistling wind gusts)
   windLFO = ctx.createOscillator();
   windLFO.frequency.setValueAtTime(0.07, ctx.currentTime);
   const windLFOGain = ctx.createGain();
@@ -152,7 +139,6 @@ function stopWindLayer() {
   }
 }
 
-// Start Multi-Oscillator Dark Drone Pad (D-minor / A-minor cluster)
 function startDroneLayer(ctx) {
   if (droneOscs.length > 0) return;
 
@@ -164,7 +150,6 @@ function startDroneLayer(ctx) {
   filter.frequency.setValueAtTime(140, ctx.currentTime);
   filter.Q.setValueAtTime(3.8, ctx.currentTime);
 
-  // Filter sweep LFO for breathing darkness
   const filterLFO = ctx.createOscillator();
   filterLFO.frequency.setValueAtTime(0.05, ctx.currentTime);
   const filterLFOGain = ctx.createGain();
@@ -174,7 +159,6 @@ function startDroneLayer(ctx) {
   filterLFO.start();
   droneLFOs.push(filterLFO);
 
-  // Detuned horror cluster: D1 (36.7Hz), A1 (55Hz), D2 (73.4Hz), F2 (87.3Hz)
   const tones = [
     { freq: 36.7, type: 'sine', detune: 0, gain: 0.12 },
     { freq: 55.0, type: 'triangle', detune: -4, gain: 0.08 },
@@ -222,7 +206,6 @@ function stopDroneLayer() {
   }
 }
 
-// Subterranean Heartbeat pulse (Lub-Dub every ~1.35s)
 function playHeartbeatHit(ctx, isSecondHit = false) {
   if (!isPlaying) return;
   const now = ctx.currentTime;
@@ -234,7 +217,6 @@ function playHeartbeatHit(ctx, isSecondHit = false) {
   osc.frequency.setValueAtTime(baseFreq, now);
   osc.frequency.exponentialRampToValueAtTime(26, now + 0.14);
 
-  // Heartbeat is more prominent during quiz tension
   const vol = currentStage === 'quiz' ? 0.09 : 0.035;
   gain.gain.setValueAtTime(vol, now);
   gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
@@ -265,16 +247,13 @@ function stopHeartbeatLoop() {
   }
 }
 
-// Procedural Eerie Gothic Bell / High Harmonic Shimmer
 function playGothicBell(ctx) {
   if (!isPlaying) return;
   const now = ctx.currentTime;
 
-  // Gothic minor scale frequencies: D4, F4, G#4, A4, C5, D5
   const scale = [293.66, 349.23, 415.3, 440.0, 523.25, 587.33];
   const rootFreq = scale[Math.floor(Math.random() * scale.length)];
 
-  // Partial harmonic multiples for realistic gothic cast-iron church bell resonance
   const partials = [
     { mult: 1.0, decay: 4.5, gain: 0.02 },
     { mult: 2.76, decay: 3.2, gain: 0.012 },
@@ -294,7 +273,7 @@ function playGothicBell(ctx) {
     osc.connect(gain);
     gain.connect(masterGain);
     if (delayNode) {
-      gain.connect(delayNode); // Send to reverb delay for eerie cathedral space
+      gain.connect(delayNode);
     }
 
     osc.start(now);
@@ -307,7 +286,6 @@ function startBellLoop(ctx) {
 
   const scheduleNextBell = () => {
     if (!isPlaying) return;
-    // Bell tolls every 8-15 seconds
     const delayMs = 8000 + Math.random() * 7000;
     bellTimer = setTimeout(() => {
       if (isPlaying) {
@@ -327,13 +305,6 @@ function stopBellLoop() {
   }
 }
 
-// ============================================================================
-// PUBLIC API FOR APP COMPONENTS
-// ============================================================================
-
-/**
- * Start or resume the procedural horror BGM soundtrack
- */
 export function startBGM() {
   try {
     const ctx = getAudioContext();
@@ -350,7 +321,6 @@ export function startBGM() {
       startHeartbeatLoop(ctx);
       startBellLoop(ctx);
 
-      // Smooth fade-in of master gain to prevent pops
       const now = ctx.currentTime;
       masterGain.gain.cancelScheduledValues(now);
       masterGain.gain.setValueAtTime(masterGain.gain.value || 0.0001, now);
@@ -359,15 +329,11 @@ export function startBGM() {
       notifyListeners();
     }
     return true;
-  } catch (err) {
-    console.warn("Audio start prevented:", err);
+  } catch {
     return false;
   }
 }
 
-/**
- * Stop or fade out the BGM soundtrack
- */
 export function stopBGM(isExplicitUserMute = true) {
   if (isExplicitUserMute) {
     userMutedExplicitly = true;
@@ -402,9 +368,6 @@ export function stopBGM(isExplicitUserMute = true) {
   }
 }
 
-/**
- * Toggle BGM on / off
- */
 export function toggleAmbience() {
   if (isPlaying) {
     return stopBGM(true);
@@ -427,10 +390,6 @@ export function subscribeAudioState(fn) {
   return () => stateListeners.delete(fn);
 }
 
-/**
- * Adapt the soundtrack dynamically according to app stage
- * @param {'landing' | 'quiz' | 'result'} stage
- */
 export function setAudioStage(stage) {
   currentStage = stage;
   if (!isPlaying || !audioCtx || !droneGain) return;
@@ -448,7 +407,6 @@ export function setAudioStage(stage) {
   }
 }
 
-// Gentle dry paper / wood tap feedback
 export function playCardSelect() {
   try {
     const ctx = getAudioContext();
@@ -478,7 +436,6 @@ export function playCardSelect() {
   } catch {}
 }
 
-// Question transition whoosh
 export function playQuestionTransition() {
   try {
     const ctx = getAudioContext();
@@ -503,14 +460,13 @@ export function playQuestionTransition() {
   } catch {}
 }
 
-// Low distant gothic church bell / iron chime for result reveal
 export function playChime() {
   try {
     const ctx = getAudioContext();
     if (!ctx) return;
 
     const now = ctx.currentTime;
-    const freqs = [146.83, 220, 293.66, 369.99]; // D minor chord harmonic
+    const freqs = [146.83, 220, 293.66, 369.99];
 
     freqs.forEach((freq, idx) => {
       const osc = ctx.createOscillator();

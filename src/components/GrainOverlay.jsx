@@ -3,7 +3,6 @@ import React from 'react';
 export default function GrainOverlay() {
   return (
     <>
-      {/* SVG noise texture filter for authentic 19th-century printed rag paper feel */}
       <svg className="svg-grain-filter" aria-hidden="true">
         <filter id="horror-grain">
           <feTurbulence

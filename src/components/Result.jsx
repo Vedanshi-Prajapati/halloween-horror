@@ -24,9 +24,7 @@ export default function Result({ result, onRestart }) {
           url: shareUrl,
         });
         return;
-      } catch {
-        // Fallback to clipboard
-      }
+      } catch {}
     }
 
     try {
@@ -50,7 +48,6 @@ export default function Result({ result, onRestart }) {
 
   return (
     <section className="screen-result-reveal">
-      {/* Dominant Hero Character Artwork */}
       <div className="result-character-hero-frame">
         <img
           src={result.image}
@@ -61,7 +58,6 @@ export default function Result({ result, onRestart }) {
         <div className="result-character-gradient-vignette" />
       </div>
 
-      {/* Editorial Character Reveal Typography */}
       <div className="result-editorial-details">
         <header className="result-identity-header">
           <p className="result-kicker">YOUR NOCTURNAL ESSENCE</p>
@@ -73,7 +69,6 @@ export default function Result({ result, onRestart }) {
           </p>
         </header>
 
-        {/* 3 Small Restrained Traits */}
         <div className="result-traits-row">
           {result.traits.map((traitObj, idx) => {
             const name = typeof traitObj === 'string' ? traitObj : traitObj.name;
@@ -85,12 +80,10 @@ export default function Result({ result, onRestart }) {
           })}
         </div>
 
-        {/* Short Personality Narrative */}
         <p className="result-narrative-summary">
           {result.description}
         </p>
 
-        {/* Action Controls */}
         <div className="result-action-row">
           <button
             type="button"

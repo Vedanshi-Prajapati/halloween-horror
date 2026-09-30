@@ -37,7 +37,7 @@ export default function Landing({ onStart }) {
     };
 
     window.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseleave', handleLeave);
+    document.removeEventListener('mouseleave', handleLeave);
     window.addEventListener('touchmove', handleTouch, { passive: true });
     window.addEventListener('touchstart', handleTouch, { passive: true });
 
@@ -51,7 +51,6 @@ export default function Landing({ onStart }) {
 
   return (
     <section className="screen-landing" ref={containerRef}>
-      {/* Hero Fullscreen Artwork — Illuminated by Torchlight */}
       <div className="hero-artwork-canvas torchlight-target" aria-hidden="true">
         <img
           src="/assets/landing.jpg"
@@ -62,10 +61,8 @@ export default function Landing({ onStart }) {
         <div className="hero-artwork-vignette" />
       </div>
 
-      {/* Atmospheric Torchlight Beam Overlay */}
       <div className="torchlight-beam" aria-hidden="true" />
 
-      {/* Editorial Content — Integrated Directly into the Scene */}
       <div className="landing-editorial-flow">
         <header className="landing-titles">
           <p className="landing-kicker">AN UNEXPECTED INQUIRY</p>
