@@ -6,6 +6,7 @@ import GrainOverlay from './components/GrainOverlay';
 import CustomCursor from './components/CustomCursor';
 import AudioToggle from './components/AudioToggle';
 import { QUIZ_QUESTIONS, CREATURE_RESULTS } from './data/quizData';
+import { startBGM, hasUserMuted, setAudioStage } from './utils/audio';
 
 export default function App() {
   const [stage, setStage] = useState('landing'); // 'landing' | 'quiz' | 'result'
@@ -18,6 +19,11 @@ export default function App() {
     reaper: 0,
   });
   const [resultCreature, setResultCreature] = useState(null);
+
+  // Sync background music soundscape to current stage
+  useEffect(() => {
+    setAudioStage(stage);
+  }, [stage]);
 
   // Preload all high-res editorial scene illustrations on mount
   useEffect(() => {
@@ -43,6 +49,9 @@ export default function App() {
   }, []);
 
   const handleStartQuiz = () => {
+    if (!hasUserMuted()) {
+      startBGM();
+    }
     setScores({
       vampire: 0,
       witch: 0,

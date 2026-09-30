@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Progress from './Progress';
 import Answer from './Answer';
+import { playQuestionTransition } from '../utils/audio';
 
 export default function Question({
   questionData,
@@ -20,6 +21,7 @@ export default function Question({
     if (selectedId || isTransitioning) return;
     setSelectedId(answer.id);
     setIsTransitioning(true);
+    playQuestionTransition();
 
     setTimeout(() => {
       onAnswerSelected(answer);
